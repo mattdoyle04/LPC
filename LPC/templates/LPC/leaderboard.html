@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">The LPC</h1>
+    <p class="lead">This is the leaderboard.</p>
+  </div>
+</div>
+
+<!-- Table/Profit -->
+{% if bets %}
+<div class="container">
+   <div class="row">
+   <div class="table-responsive">
+    <table class="table table-dark table-striped table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Punter</th>
+          <th score="col" class="text-center">Spent (£)</th>
+          <th score="col" class="text-center">Return (£)</th>
+          <th scope="col" class="text-center">Profit (£)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for punter in profit_ladder %}
+            <tr>
+                {% for punter_name, values in punter.items %}
+                    {% if forloop.counter == 1 %}
+                        <td>{{ values }}</td>
+                    {% else %}
+                        <td class="text-center">{{ values }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>  
+        {% endfor %}
+      </tbody>
+    </table>
+   </div>
+   </div>
+</div>
+{% else %}
+    <p>No bets are available.</p>
+{% endif %}
+
+<!-- Table/Odds -->
+{% if bets %}
+<div class="container">
+   <div class="row">
+   <div class="table-responsive">
+    <table class="table table-dark table-striped table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Punter</th>
+          <th score="col" class="text-center">Weighted Ave. Odds</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x, y in odds_ladder %}
+            <tr>
+              <td>{{ x }}</td>
+              <td class="text-center">{{ y|floatformat:2 }}</td>
+            </tr>   
+        {% endfor %}
+      </tbody>
+    </table>
+   </div>
+   </div>
+</div>
+{% else %}
+    <p>No bets are available.</p>
+{% endif %}
+
+
+{% endblock %}

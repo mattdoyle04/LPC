@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="section-image" id="top">
+    <div class="container-fluid">
+      <div class="row">
+      
+          <div class="col-9">
+             <div class="jumbotron-fluid">
+                <h3 class="display-5">London Punters Club</h3>
+                <p class="lead">An overview of the results so far.</p>
+             </div>
+          </div>
+          
+          <div class="col-3">
+            <div class="container-coward">
+                <div class="circle">
+                    <p>#1 Coward<br/><strong>{{ odds_ladder.0 }}</strong></p>
+                </div>
+            </div>
+            <div class="container-coward">
+                <div class="circle">
+                    <p>#1 Punter<br/><strong>{{ profit_ladder.name }}</strong></p>
+                </div>
+            </div>
+          </div>
+              
+      </div>
+    </div>
+</section>
+
+<div class="container-fluid" id="floating-cards">
+    <div class="row d-flex">
+        <div class="col-4">
+            <div class="card text-white bg-dark mb-3 border-light" id="card1">
+              <div class="card-header">{{ bet_count_wins }} wins from {{ bet_count }} bets</div>
+              <div class="card-body">
+                <h3 class="card-title text-center">{{ bet_win_ratio|floatformat:0 }}%</h3>
+                <h6 class="text-center">Bet Win Ratio</h6>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-dark mb-3 border-light" id="card2">
+              <div class="card-header">{{ bet_count_multi_wins }} wins from {{ bet_count_multi }} bets</div>
+              <div class="card-body">
+                <h3 class="card-title text-center">{{ bet_win_ratio_multi|floatformat:0 }}%</h3>
+                <h6 class="text-center">Leg Win Ratio</h6>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-white bg-dark mb-3 border-light" id="card3">
+              <div class="card-header">£{{ bet_return_total|floatformat:0 }} return from {{ bet_count }} bets</div>
+              <div class="card-body">
+                <h3 class="card-title text-center">£{{ bet_return_average|floatformat:0 }}</h3>
+                <h6 class="text-center">Average Return</h6>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="d-flex justify-content-center"><h1 style="color:white">£{{ bet_cum_pnl|floatformat:0 }}</h1></div>
+    <div class="d-flex justify-content-center"><h6 style="color:white">Profit</h6></div>
+    <div class="d-flex justify-content-center"><h6><br/></h6></div>
+</div>
+
+<!-- Chart -->
+<div class="container">
+<canvas id="myChart" style="background-color: rgba(0,0,0,0)"></canvas>
+<script>
+var ctx = document.getElementById('myChart').getContext("2d")
+
+var gradientStroke = ctx.createLinearGradient(0, document.body.clientHeight/2, document.body.clientWidth, document.body.clientHeight/2);
+gradientStroke.addColorStop(0, "#ff4757");
+gradientStroke.addColorStop(1, "#5f27cd");
+  
+var gradientFill = ctx.createLinearGradient(0, document.body.clientHeight/2, document.body.clientWidth, document.body.clientHeight/2);
+gradientFill.addColorStop(0, "rgba(255, 71, 81, 1");
+gradientFill.addColorStop(1, "rgba(95, 35, 205, .6)");
+
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for bet in object_list %}'{{ bet.bet_date|date:'d M' }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+        datasets: [{
+            label: "PnL",
+            borderColor: gradientStroke,
+            pointBorderColor: gradientStroke,
+            pointBackgroundColor: gradientStroke,
+            pointHoverBackgroundColor: gradientStroke,
+            pointHoverBorderColor: gradientStroke,
+            pointBorderWidth: 10,
+            pointHoverRadius: 10,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: true,
+            backgroundColor: gradientFill,
+            borderWidth: 4,
+            data: [{% for bet in object_list %}'{{ bet.cum_pnl }}'{% if not forloop.last %}, {% endif %}{% endfor %}]
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "rgba(255,255,255,1)",
+                    fontStyle: "bold",
+                    beginAtZero: true,
+                    maxTicksLimit: 5,
+                    padding: 20
+                },
+                gridLines: {
+                    drawTicks: false,
+                    display: false
+                }
+}],
+            xAxes: [{
+                ticks: {
+                    padding: 20,
+                    fontColor: "rgba(255,255,255,1)",
+                    fontStyle: "bold"
+                },
+                gridLines: {
+                    drawTicks: false,
+                    display: false,
+                    zeroLineColor: "transparent"
+                }
+            }]
+        }
+    }
+});
+</script>
+</div>
+
+
+<!-- Table -->
+{% if object_list %}
+<div class="container" id="table">
+   <div class="row">
+   <div class="table-responsive">
+    <table class="table table-dark table-striped table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Punter</th>
+          <th scope="col" class="text-center d-none d-sm-table-cell">Week</th>
+          <th scope="col" class="text-center d-none d-sm-table-cell">Bet#</th>
+          <th score="col" class="text-center">Bet</th>
+          <th score="col" class="text-center">Odds</th>
+          <th score="col" class="text-center">Result</th>
+          <th scope="col" class="text-center">Returned</th>
+          <th scope="col" class="text-center d-none d-sm-table-cell">Pnl (running)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bet in object_list reversed%}
+        <tr>
+          <td scope="row">{{ bet.bet_date|date:"d.m.y" }}</td>
+          <td>{{ bet.punter }}</td>
+          <td class="text-center d-none d-sm-table-cell">{{ bet.bet_week }}</td>
+          <td class="text-center d-none d-sm-table-cell">{{ bet.bet_number }}</td>
+          <td class="text-center">£{{ bet.bet_amount|floatformat:2 }}</td>
+          <td class="text-center">{{ bet.bet_odds|floatformat:2 }}</td>
+          {% if bet.bet_win %}
+          <td class="text-center">Won</td>
+          {% else %}
+          <td class="text-center">Lost</td>
+          {% endif %}
+          <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><strong>£{{ bet.bet_return|floatformat:2 }}</strong></td>
+          <td class="text-center d-none d-sm-table-cell">{{ bet.cum_pnl|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+   </div>
+   </div>
+</div>
+{% else %}
+    <p>No bets are available.</p>
+{% endif %}
+
+<div class="container">
+    <div>
+        <small class="row align-bottom" id="footer">Website created by the Director of Risk</small>
+    </div>
+</div>
+
+{% endblock %}
+
