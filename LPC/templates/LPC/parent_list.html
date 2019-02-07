@@ -7,24 +7,13 @@
       
           <div class="col-9">
              <div class="jumbotron-fluid">
-                <h3 class="display-5">London Punters Club</h3>
-                <p class="lead">An overview of the results so far.</p>
+                <h3 class="display-4">London Punters Club</h3>
+                <blockquote class="blockquote">
+                    <p class="mb-0 font-italic" style="color:rgba(255, 255, 255, 0.7)">"Aim small. Miss small."</p>
+                </blockquote>
              </div>
           </div>
-          
-          <div class="col-3">
-            <div class="container-coward">
-                <div class="circle">
-                    <p>#1 Coward<br/><strong>{{ odds_ladder.0 }}</strong></p>
-                </div>
-            </div>
-            <div class="container-coward">
-                <div class="circle">
-                    <p>#1 Punter<br/><strong>{{ profit_ladder.name }}</strong></p>
-                </div>
-            </div>
-          </div>
-              
+
       </div>
     </div>
 </section>
@@ -51,7 +40,7 @@
         </div>
         <div class="col-4">
             <div class="card text-white bg-dark mb-3 border-light" id="card3">
-              <div class="card-header">£{{ bet_return_total|floatformat:0 }} return from {{ bet_count }} bets</div>
+              <div class="card-header">£{{ bet_return_total|floatformat:0 }} profit from {{ bet_count }} bets</div>
               <div class="card-body">
                 <h3 class="card-title text-center">£{{ bet_return_average|floatformat:0 }}</h3>
                 <h6 class="text-center">Average Return</h6>

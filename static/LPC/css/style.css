@@ -8,7 +8,7 @@ body {
 
 section {
     margin: 0 auto;
-    height: 100vh;
+    height: 50vh;
 }
 
 .section-image {
@@ -18,7 +18,7 @@ section {
 }
 
 #top {
-    background-image: linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)), url("Joe.jpg");
+    background-image: linear-gradient(rgba(255,255,255,.65),rgba(0,0,0,.75)), url("JoeCropped.png");
     padding-top: 25px;
 }
 
@@ -34,46 +34,6 @@ section {
 
 #card1, #card2, #card3 {
   background-image: linear-gradient(to bottom right, #4bcffa,#0be881) !important;
-}
-
-.container-coward {
-  background: rgba(0,0,0,0);
-  font-size: 0;
-  text-align: center;
-  margin:0;
-  padding:0;
-}
-
-.circle {
-  display: inline-block;
-  min-width: 15%;
-  white-space: nowrap;
-}
-
-.circle:before {
-  border-radius: 50%;
-  width: 100%;
-  padding-bottom: 100%;
-  margin: 15px .5px;
-  background: yellow;
-  content: '';
-  display: inline-block;
-  vertical-align: middle;
-  padding-bottom: 0vw;
-  width: 15vw;
-  height: 15vw;
-}
-
-.circle p {
-  display: inline-block;
-  font-size: 7.5pt;
-  margin: 0 -.5em 0 -100%;
-  padding: 0;
-  vertical-align: middle;
-  white-space: normal;
-  width: 100%;
-  margin: 0 0 0 -15vw;
-  width: 15vw;
 }
 
 #table {
@@ -112,4 +72,59 @@ a, a:hover {
       top: -55px;
     }
 
+}
+
+@media screen and (min-width: 600px) {
+
+  section {
+    margin: 0 auto;
+    height: 65vh;
+  }
+
+  .jumbotron-fluid {
+    padding-top: 10%;
+    padding-bottom: 20%;
+  }
+
+  .display-4 {
+    font-size: 4.5rem;
+  }
+  
+}
+
+@media screen and (min-width: 900px) {
+
+  section {
+    margin: 0 auto;
+    height: 75vh;
+  }
+
+  .jumbotron-fluid {
+    padding-top: 10%;
+    padding-bottom: 20%;
+  }
+
+  .display-4 {
+    font-size: 5.5rem;
+  }
+  
+
+}
+
+@media screen and (min-width: 1100px) {
+
+  section {
+    margin: 0 auto;
+    height: 85vh;
+  }
+
+  .jumbotron-fluid {
+    padding-top: 10%;
+    padding-bottom: 20%;
+  }
+
+  .display-4 {
+    font-size: 6rem;
+  }
+  
 }
