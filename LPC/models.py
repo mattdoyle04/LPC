@@ -11,7 +11,7 @@ class Parent(models.Model):
     bet_amount = models.FloatField(default=0.0)
     bet_event = models.CharField(max_length=200)
     bet_odds = models.FloatField(default=0.0)
-    bet_win = models.BooleanField(default=0.0)
+    bet_win = models.BooleanField()
     bet_potential = models.FloatField(default=0.0)
     bet_cashed = models.BooleanField()
     bet_return = models.FloatField(default=0.0)
