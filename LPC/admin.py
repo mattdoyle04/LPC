@@ -4,7 +4,7 @@ from .models import Parent, Multi
 @admin.register(Parent)
 class ParentAdmin(admin.ModelAdmin):
     list_display = ('punter','bet_date','bet_week','bet_number','bet_legs','bet_amount','bet_odds','bet_return')
-    ordering = ['bet_date']
+    ordering = ['bet_date','punter','bet_number']
     
 @admin.register(Multi)
 class MultiAdmin(admin.ModelAdmin):
