@@ -65,7 +65,7 @@
         </div>
         <div class="col-4">
             <div class="card text-white bg-dark mb-3 border-light" id="card3">
-              <div class="card-header">£{{ bet_return_total|floatformat:0 }} profit from {{ bet_count }} bets</div>
+              <div class="card-header">£{{ bet_return_total|floatformat:0 }} back from {{ bet_count }} bets</div>
               <div class="card-body">
                 <h3 class="card-title text-center">£{{ bet_return_average|floatformat:0 }}</h3>
                 <h6 class="text-center">Average Return</h6>
@@ -185,9 +185,9 @@ var myChart = new Chart(ctx, {
           <td class="text-center">£{{ bet.bet_amount|floatformat:2 }}</td>
           <td class="text-center">{{ bet.bet_odds|floatformat:2 }}</td>
           {% if bet.bet_win %}
-          <td class="text-center">Won</td>
+            <td class="text-center"><i class='fa fa-money' style="color:#26de81;"></i></td>
           {% else %}
-          <td class="text-center">Lost</td>
+            <td class="text-center"><i class='fa fa-times' style="color:#eb3b5a;"></i></td>
           {% endif %}
           <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><strong>£{{ bet.bet_return|floatformat:2 }}</strong></td>
           <td class="text-center d-none d-sm-table-cell">{{ bet.cum_pnl|floatformat:2 }}</td>

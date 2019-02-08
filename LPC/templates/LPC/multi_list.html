@@ -33,9 +33,9 @@
                   <td class="text-center">{{ bet.bet_home }}</td>
                   <td class="text-center">{{ bet.bet_odds|floatformat:2 }}</td>
                   {% if bet.bet_win %}
-                  <td class="text-center">Won</td>
+                    <td class="text-center"><i class='fa fa-money' style="color:#26de81;"></i></td>
                   {% else %}
-                  <td class="text-center">Lost</td>
+                    <td class="text-center"><i class='fa fa-times' style="color:#eb3b5a;"></i></td>
                   {% endif %}
                 </tr>
                 {% endfor %}
