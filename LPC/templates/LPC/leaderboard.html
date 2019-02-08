@@ -3,8 +3,7 @@
 
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4">The LPC</h1>
-    <p class="lead">This is the leaderboard.</p>
+    <h1 class="display-4">The Deets</h1>
   </div>
 </div>
 
@@ -29,7 +28,7 @@
                     {% if forloop.counter == 1 %}
                         <td>{{ values }}</td>
                     {% else %}
-                        <td class="text-center">{{ values }}</td>
+                        <td class="text-center">{{ values|floatformat:2 }}</td>
                     {% endif %}
                 {% endfor %}
             </tr>  

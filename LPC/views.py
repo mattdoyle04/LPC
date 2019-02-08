@@ -35,7 +35,12 @@ class ParentListView(ListView):
         
         sorted_punting_data = sorted(punting_data, key=lambda k: k['profit'], reverse=True) 
         context['profit_ladder'] = sorted_punting_data[0]
-            
+
+        if sorted_punting_data[-1]['name'] == "Unsanctioned":
+            context['loss_ladder'] = sorted_punting_data[-2]
+        else:
+            context['loss_ladder'] = sorted_punting_data[-1]
+
         odds_data = {}
         for punter in punters:
             total_spent = Parent.objects.filter(punter__exact=punter).aggregate(bet_amount_sum=Sum('bet_amount'))['bet_amount_sum']
