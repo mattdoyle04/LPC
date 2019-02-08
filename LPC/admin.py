@@ -8,5 +8,5 @@ class ParentAdmin(admin.ModelAdmin):
     
 @admin.register(Multi)
 class MultiAdmin(admin.ModelAdmin):
-    list_display = ('parent','bet_leg','bet_type','bet_team','bet_opposition','bet_opposition','bet_win')
+    list_display = ('parent','bet_leg','bet_type','bet_team','bet_opposition','bet_home','bet_odds','bet_win')
     ordering = ['parent','bet_leg']
