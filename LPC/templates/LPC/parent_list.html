@@ -178,16 +178,16 @@ var myChart = new Chart(ctx, {
       <tbody>
         {% for bet in object_list reversed%}
         <tr>
-          <td scope="row">{{ bet.bet_date|date:"d.m.y" }}</td>
-          <td>{{ bet.punter }}</td>
-          <td class="text-center d-none d-sm-table-cell">{{ bet.bet_week }}</td>
-          <td class="text-center d-none d-sm-table-cell">{{ bet.bet_number }}</td>
-          <td class="text-center">£{{ bet.bet_amount|floatformat:2 }}</td>
-          <td class="text-center">{{ bet.bet_odds|floatformat:2 }}</td>
+          <td scope="row"><a href="{% url 'LPC:multi_list' pk=bet.id %}">{{ bet.bet_date|date:"d.m.y" }}</td>
+          <td><a href="{% url 'LPC:multi_list' pk=bet.id %}">{{ bet.punter }}</td>
+          <td class="text-center d-none d-sm-table-cell"><a href="{% url 'LPC:multi_list' pk=bet.id %}">{{ bet.bet_week }}</td>
+          <td class="text-center d-none d-sm-table-cell"><a href="{% url 'LPC:multi_list' pk=bet.id %}">{{ bet.bet_number }}</td>
+          <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}">£{{ bet.bet_amount|floatformat:2 }}</td>
+          <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}">{{ bet.bet_odds|floatformat:2 }}</td>
           {% if bet.bet_win %}
-            <td class="text-center"><i class='fa fa-money' style="color:#26de81;"></i></td>
+            <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><i class='fa fa-money' style="color:#26de81;"></i></td>
           {% else %}
-            <td class="text-center"><i class='fa fa-times' style="color:#eb3b5a;"></i></td>
+            <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><i class='fa fa-times' style="color:#eb3b5a;"></i></td>
           {% endif %}
           {% if bet.bet_return < 0.01 %}
             <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><i class="fas fa-egg" style="color:#ffefae"></i></td>
