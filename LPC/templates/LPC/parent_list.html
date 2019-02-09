@@ -31,7 +31,7 @@
                 </div>
                 <div class="badge purple">
                     <div class="circle">
-                        <i class='fa fa-trash-o'></i>
+                        <i class='fa fa-trash-alt'></i>
                     </div>
                     <div class="ribbon">{{ odds_ladder.0 }}</div>
                 </div>
@@ -189,7 +189,11 @@ var myChart = new Chart(ctx, {
           {% else %}
             <td class="text-center"><i class='fa fa-times' style="color:#eb3b5a;"></i></td>
           {% endif %}
-          <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><strong>£{{ bet.bet_return|floatformat:2 }}</strong></td>
+          {% if bet.bet_return < 0.01 %}
+            <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><i class="fas fa-egg" style="color:#ffefae"></i></td>
+          {% else %}
+            <td class="text-center"><a href="{% url 'LPC:multi_list' pk=bet.id %}"><strong>£{{ bet.bet_return|floatformat:2 }}</strong></td>
+          {% endif %}
           <td class="text-center d-none d-sm-table-cell">{{ bet.cum_pnl|floatformat:2 }}</td>
         </tr>
         {% endfor %}
