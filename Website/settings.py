@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'h!ie&clq*)h0ixt8&smxng9rrj6+y0
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-ALLOWED_HOSTS = ['www.londonpuntersclub.co.uk','londonpuntersclub.herokuapp.com','127.0.0.1','0.0.0.0']
+ALLOWED_HOSTS = ['www.londonpuntersclub.co.uk','londonpuntersclub.herokuapp.com','127.0.0.1','0.0.0.0','localhost']
 
 
 # Application definition
