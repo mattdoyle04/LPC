@@ -34,13 +34,13 @@ class Parent(models.Model):
     def is_coward(self):
         return self.bet_odds < 3
     
+    class Meta:
+        ordering = ['bet_date','punter','-bet_number']
+    
     def __str__(self):
         return self.punter + " Wk" + str(self.bet_week) + " Bet" + str(self.bet_number)
-    
-    class Meta:
-        ordering = ('bet_date','punter','bet_number')
-    
 
+        
 class Multi(models.Model):
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
     bet_leg = models.PositiveIntegerField()

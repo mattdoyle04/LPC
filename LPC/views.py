@@ -56,7 +56,7 @@ class ParentListView(ListView):
             context['odds_ladder'] = sorted_odds[1]
         else:
             context['odds_ladder'] = sorted_odds[0]
-            
+
         return context 
 
 class MultiListView(ListView):
@@ -100,5 +100,50 @@ class LeaderboardView(ListView):
         
         sorted_odds = sorted(odds_data.items(), key=lambda x: x[1])
         context['odds_ladder'] = sorted_odds
+
+        cashed_data = {}
+        for punter in punters:
+            cash_out_win = Parent.objects.filter(punter__exact=punter).filter(bet_cashed__exact=True).filter(bet_win__exact=True).aggregate(win_return=Sum('bet_return'))['win_return']
+            cash_out_win_potential = Parent.objects.filter(punter__exact=punter).filter(bet_cashed__exact=True).filter(bet_win__exact=True).aggregate(win_return_potential=Sum('bet_potential'))['win_return_potential']
+            cash_out_loss = Parent.objects.filter(punter__exact=punter).filter(bet_cashed__exact=True).filter(bet_win__exact=False).aggregate(loss_return=Sum('bet_return'))['loss_return']
+            if cash_out_win and cash_out_loss is not None:
+                cashed_data[punter] = cash_out_loss - (cash_out_win_potential - cash_out_win)
+            elif cash_out_win is not None and cash_out_loss is None:
+                cashed_data[punter] = cash_out_win - cash_out_win_potential
+            elif cash_out_loss is not None and cash_out_win is None:
+                cashed_data[punter] = cash_out_loss
+            else:
+                cashed_data[punter] = 0
+
+        sorted_cashed = sorted(cashed_data.items(), key=lambda x: x[1],reverse=True)
+        context['cashed_data'] = sorted_cashed
+
+        events = Parent.objects.values('bet_event').annotate(Count('bet_event')).order_by('-bet_event__count')
+        event_data = {}
+        for event in events:
+            event_data[event['bet_event']] = event['bet_event__count']
+
+        context['event_data'] = event_data
+
+        teams = Multi.objects.values('bet_team').annotate(Count('bet_team')).order_by('-bet_team__count')
+        team_data = {}
+        for team in teams:
+            team_data[team['bet_team']] = team['bet_team__count']
         
+        context['team_data'] = team_data
+
+        team_cost = Multi.objects.values('bet_team').filter(bet_win=False).filter(parent__bet_cashed=False).annotate(Sum('parent__bet_amount')).order_by('-parent__bet_amount__sum')
+        team_cost_data = {}
+        for team in team_cost:
+            team_cost_data[team['bet_team']] = team['parent__bet_amount__sum']
+        
+        context['team_cost_data'] = team_cost_data
+        
+        opposition_cost = Multi.objects.values('bet_opposition').filter(bet_win=False).filter(parent__bet_cashed=False).annotate(Sum('parent__bet_amount')).order_by('-parent__bet_amount__sum')
+        opposition_cost_data = {}
+        for team in opposition_cost:
+            opposition_cost_data[team['bet_opposition']] = team['parent__bet_amount__sum']
+        
+        context['opposition_cost_data'] = opposition_cost_data
+
         return context
