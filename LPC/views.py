@@ -9,6 +9,9 @@ class ParentListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        num_visits = self.request.session.get('num_visits', 0)
+        self.request.session['num_visits'] = num_visits + 1
+        context['num_visits'] = num_visits
         context['bet_count'] = Parent.objects.count()
         context['bet_count_wins'] = Parent.objects.filter(bet_win__exact=True).count()
         context['bet_win_ratio'] = round((context['bet_count_wins'] / context['bet_count'])*100,2)
@@ -73,6 +76,9 @@ class LeaderboardView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        num_visits = self.request.session.get('num_visits', 0)
+        self.request.session['num_visits'] = num_visits + 1
+        context['num_visits'] = num_visits
         
         punts = Parent.objects.all()
         punters = []
